@@ -10,7 +10,9 @@ const app = express();
 main().catch((err) => console.log(err));
 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/itemDB");
+    await mongoose.connect(
+        "mongodb+srv://shrrshazni:Calle21strt@cluster0.rembern.mongodb.net/todolistDB"
+    );
 
     const itemSchema = {
         name: String,
@@ -64,15 +66,12 @@ async function main() {
         const itemName = req.body.newItem;
         const listName = req.body.list;
 
-        console.log(listName);
-
         const item = new Item({
             name: itemName,
         });
 
         if (listName === "Today") {
             item.save();
-
             res.redirect("/");
         } else {
             const checkList1 = await List.findOne({ name: listName });
@@ -91,11 +90,8 @@ async function main() {
 
             if (checkResult) {
                 console.log("Successfully removed an item");
-            } else {
-                console.log("There is an error");
+                res.redirect("/");
             }
-
-            res.redirect("/");
         } else {
             const checkList = await List.findOneAndUpdate(
                 { name: listName },
