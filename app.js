@@ -2,7 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
-const port = 3000;
+
+//heroku add
+const cool = require("cool-ascii-faces");
+
 // const date = require(__dirname + "/date.js");
 
 const app = express();
@@ -135,7 +138,11 @@ async function main() {
         res.render("about");
     });
 
+    const port = process.env.PORT || 5001;
+
+    app.get("/cool", (req, res) => res.send(cool()));
+
     app.listen(port, function () {
-        console.log("Server is up & running on port 3000.");
+        console.log("Server is up & running on port " + port);
     });
 }
